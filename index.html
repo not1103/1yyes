@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1Yyes - Your Sweet Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --pink-light: #FFE4EC; --pink-main: #FF6B9D; --pink-dark: #E91E6C;
+            --pink-gradient-1: #FF9A9E; --pink-gradient-2: #FECFEF; --pink-gradient-3: #FFA8C5;
+            --text-dark: #4A2040; --text-light: #fff; --bg-soft: #FFF5F8;
+        }
+        body { font-family: "Quicksand", "Noto Sans TC", sans-serif; background: var(--bg-soft); color: var(--text-dark); overflow-x: hidden; }
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: url(hero-bg.jpg) center/cover no-repeat;
+            position: relative; text-align: center; padding: 2rem;
+        }
+        .hero::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg, rgba(255,154,158,0.7), rgba(254,207,239,0.6), rgba(255,168,197,0.7)); z-index:0; }
+        .hero-content { position: relative; z-index: 1; }
+        .avatar {
+            width: 150px; height: 150px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--pink-dark), var(--pink-main));
+            display: flex; align-items: center; justify-content: center; font-size: 3.5rem;
+            margin: 0 auto 1.5rem; box-shadow: 0 10px 40px rgba(233,30,108,0.3);
+            border: 4px solid rgba(255,255,255,0.6); animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        .hero h1 { font-size: 3rem; font-weight: 700; color: var(--text-light); text-shadow: 2px 2px 10px rgba(0,0,0,0.1); margin-bottom: 0.5rem; }
+        .hero .tagline { font-size: 1.2rem; color: rgba(255,255,255,0.9); margin-bottom: 2rem; font-weight: 500; }
+        .cta-button {
+            display: inline-block; padding: 16px 48px; background: white; color: var(--pink-dark);
+            border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.1rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15); transition: all 0.3s ease;
+        }
+        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.2); }
+        .scroll-hint { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.7); animation: bounce 2s infinite; font-size: 1.5rem; z-index: 1; }
+        @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(10px)} }
+        .section { padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 2rem; color: var(--pink-dark); margin-bottom: 1rem; }
+        .section-subtitle { text-align: center; color: #888; margin-bottom: 3rem; font-size: 1rem; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 2rem; }
+        .service-card {
+            background: white; border-radius: 20px; padding: 2rem; text-align: center;
+            box-shadow: 0 4px 20px rgba(255,107,157,0.1); transition: all 0.3s ease; border: 2px solid transparent;
+        }
+        .service-card:hover { transform: translateY(-5px); border-color: var(--pink-main); box-shadow: 0 8px 30px rgba(255,107,157,0.2); }
+        .service-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .service-card h3 { color: var(--pink-dark); margin-bottom: 0.5rem; font-size: 1.2rem; }
+        .service-card p { color: #777; font-size: 0.95rem; line-height: 1.6; }
+        .pricing-section { background: url(pricing-bg.jpg) center/cover no-repeat; padding: 80px 20px; position: relative; }
+        .pricing-section::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg, rgba(254,207,239,0.85), rgba(255,245,248,0.85)); z-index:0; }
+        .pricing-section > * { position: relative; z-index: 1; }
+        .pricing-card {
+            max-width: 600px; margin: 0 auto; background: white; border-radius: 24px; padding: 3rem;
+            text-align: center; box-shadow: 0 10px 40px rgba(255,107,157,0.15); position: relative; overflow: hidden;
+        }
+        .pricing-card::before { content:""; position:absolute; top:0; left:0; right:0; height:6px; background:linear-gradient(90deg, var(--pink-gradient-1), var(--pink-dark), var(--pink-gradient-3)); }
+        .pricing-badge { display:inline-block; background:linear-gradient(135deg, var(--pink-main), var(--pink-dark)); color:white; padding:6px 20px; border-radius:50px; font-size:0.85rem; font-weight:600; margin-bottom:1.5rem; }
+        .pricing-card h3 { font-size: 1.8rem; color: var(--pink-dark); margin-bottom: 1rem; }
+        .pricing-features { list-style: none; margin: 1.5rem 0; text-align: left; }
+        .pricing-features li { padding: 10px 0; border-bottom: 1px solid var(--pink-light); color: #555; display: flex; align-items: center; gap: 10px; }
+        .pricing-note { background: var(--pink-light); border-radius: 12px; padding: 1rem; margin-top: 1.5rem; color: var(--text-dark); font-size: 0.9rem; line-height: 1.6; }
+        .contact-section { text-align: center; padding: 80px 20px; background: url(contact-bg.jpg) center/cover no-repeat; position: relative; }
+        .contact-section::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg, rgba(255,154,158,0.75), rgba(233,30,108,0.75)); z-index:0; }
+        .contact-section > * { position: relative; z-index: 1; }
+        .contact-section h2 { color: white; font-size: 2rem; margin-bottom: 1rem; }
+        .contact-section p { color: rgba(255,255,255,0.9); margin-bottom: 2rem; font-size: 1.1rem; }
+        .signal-qr-placeholder { width:220px; height:220px; background:white; border-radius:16px; margin:0 auto 1.5rem; display:flex; align-items:center; justify-content:center; font-size:1rem; color:#999; box-shadow:0 8px 30px rgba(0,0,0,0.2); padding:10px; }
+        .signal-button { display:inline-block; padding:16px 48px; background:white; color:var(--pink-dark); border-radius:50px; text-decoration:none; font-weight:700; font-size:1.1rem; box-shadow:0 8px 30px rgba(0,0,0,0.15); transition:all 0.3s ease; }
+        .signal-button:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,0,0,0.25); }
+        .footer { background: var(--text-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 2rem; font-size: 0.85rem; }
+        .disclaimer { max-width:700px; margin:0 auto; padding:40px 20px; text-align:center; color:#aaa; font-size:0.8rem; line-height:1.8; }
+        @media (max-width: 600px) { .hero h1{font-size:2rem} .section-title{font-size:1.5rem} .pricing-card{padding:2rem} .services-grid{grid-template-columns:1fr} }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="avatar">🌸</div>
+            <h1>1Yyes</h1>
+            <p class="tagline">你嘅專屬甜心陪伴 ♡ 陪你傾、陪你笑、陪你每一刻</p>
+            <a href="#contact" class="cta-button">💌 掾我傾計</a>
+        </div>
+        <div class="scroll-hint">↓</div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">♡ 我可以做到你哋？</h2>
+        <p class="section-subtitle">每個人都値得被溫柔對待</p>
+        <div class="services-grid">
+            <div class="service-card"><div class="service-icon">💬</div><h3>甜蜜傾計</h3><p>無論你開心定唔開心，我都會陪你傾、聽你講、做你最甜嘅回應</p></div>
+            <div class="service-card"><div class="service-icon">🎥</div><h3>獨家內容</h3><p>專屬影片同相片，只為你一個人準備嘅甜蜜時刻</p></div>
+            <div class="service-card"><div class="service-icon">🎁</div><h3>打包計劃</h3><p>一次過擁有所有精選內容，最抵最甜最窝心</p></div>
+            <div class="service-card"><div class="service-icon">🌙</div><h3>深夜陪伴</h3><p>夜深人靜嘅時候，有我陪你度過每一個寂寥嘅夜晚</p></div>
+            <div class="service-card"><div class="service-icon">💝</div><h3>專屬語音</h3><p>甜甜嘅聲音，溫柔嘅話語，為你錄製專屬語音訊息</p></div>
+            <div class="service-card"><div class="service-icon">✨</div><h3>限定驚喜</h3><p>不定期嘅小驚喜，讓你每次都期待滿滿</p></div>
+        </div>
+    </section>
+
+    <section class="pricing-section" id="pricing">
+        <h2 class="section-title">♡ 打包計劃</h2>
+        <p class="section-subtitle">最甜蜜嘅選擇</p>
+        <div class="pricing-card">
+            <span class="pricing-badge">♡ 人氣推薦</span>
+            <h3>全套打包</h3>
+            <p style="color:#888;margin-bottom:1rem;">一次過擁有所有精選影片同相片</p>
+            <ul class="pricing-features">
+                <li>💕 所有精選影片合集</li>
+                <li>💕 獨家高清相片</li>
+                <li>💕 專屬語音訊息</li>
+                <li>💕 優先回覆你嘅訊息</li>
+                <li>💕 不定期更新驚喜</li>
+            </ul>
+            <div class="pricing-note">💕 價錢方面，你可以開個價做我聽，如果我覺得OK嘅話唡就成交！最緊要大家開心～</div>
+            <a href="#contact" class="cta-button" style="margin-top:1.5rem;">💌 同我傾價錢</a>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <h2>💌 加我 Signal 傾計</h2>
+        <p>掃描下面嘅 QR Code 或者撳下個掣加我</p>
+        <div class="signal-qr-placeholder">
+            <img src="signal-qr.png" alt="Signal QR Code - niun.21" style="width:100%;height:100%;object-fit:contain;border-radius:12px;" onerror="this.parentElement.innerHTML='\U0001f4f1 niun.21<br>Signal QR Code'">
+        </div>
+        <p style="color:rgba(255,255,255,0.8);margin-top:0.5rem;font-size:0.9rem;">Signal: niun.21</p>
+        <a href="https://signal.me/#eu/BOrT0ZsoVYm8bNQ90FXtZubn0eaFusOXesX9gOJq6v0ObNhLldBED4GIv_Lah5Qp" class="signal-button" target="_blank">📲 加我 Signal</a>
+    </section>
+
+    <div class="disclaimer">
+        <p>免責聲明：我唔會逼你做任何選擇，我只會尊重你做嘅每一個決定。<br>
+        所有交易基於雙方自願，如果你決定好，請對我兩下心 💕💕<br>
+        如果都唔想做，我完全明白，冇任何壓力 ♡</p>
+    </div>
+
+    <footer class="footer"><p>© 2026 1Yyes ♡ All Rights Reserved</p></footer>
+</body>
+</html>
