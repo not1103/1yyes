@@ -1,0 +1,375 @@
+# -*- coding: utf-8 -*-
+import os
+
+lines = []
+lines.append('<!DOCTYPE html>')
+lines.append('<html lang="zh-Hant">')
+lines.append('<head>')
+lines.append('    <meta charset="UTF-8">')
+lines.append('    <meta name="viewport" content="width=device-width, initial-scale=1.0">')
+lines.append('    <title>1Yyes - Your Sweet Companion</title>')
+lines.append('    <link rel="preconnect" href="https://fonts.googleapis.com">')
+lines.append('    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">')
+lines.append('    <style>')
+lines.append('        * { margin: 0; padding: 0; box-sizing: border-box; }')
+lines.append('        :root {')
+lines.append('            --pink-light: #FFE4EC; --pink-main: #FF6B9D; --pink-dark: #E91E6C;')
+lines.append('            --pink-gradient-1: #FF9A9E; --pink-gradient-2: #FECFEF; --pink-gradient-3: #FFA8C5;')
+lines.append('            --text-dark: #4A2040; --text-light: #fff; --bg-soft: #FFF5F8;')
+lines.append('            --gold: #D4A574; --gold-light: #F5E6D3;')
+lines.append('        }')
+lines.append('        body { font-family: "Quicksand", "Noto Sans TC", sans-serif; background: var(--bg-soft); color: var(--text-dark); overflow-x: hidden; }')
+
+# Floating particles container
+lines.append('        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; overflow: hidden; }')
+lines.append('        .particle { position: absolute; animation: fall linear infinite; opacity: 0.6; font-size: 1.2rem; }')
+lines.append('        @keyframes fall { 0%{transform:translateY(-10vh) rotate(0deg); opacity:0;} 10%{opacity:0.7;} 90%{opacity:0.7;} 100%{transform:translateY(110vh) rotate(720deg); opacity:0;} }')
+
+# Scroll reveal animation
+lines.append('        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.4,0,0.2,1); }')
+lines.append('        .reveal.visible { opacity: 1; transform: translateY(0); }')
+lines.append('        .reveal-delay-1 { transition-delay: 0.1s; }')
+lines.append('        .reveal-delay-2 { transition-delay: 0.2s; }')
+lines.append('        .reveal-delay-3 { transition-delay: 0.3s; }')
+lines.append('        .reveal-delay-4 { transition-delay: 0.4s; }')
+lines.append('        .reveal-delay-5 { transition-delay: 0.5s; }')
+
+# Hero
+lines.append('        .hero {')
+lines.append('            min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;')
+lines.append('            background: url(hero-bg.jpg) center/cover no-repeat;')
+lines.append('            position: relative; text-align: center; padding: 2rem;')
+lines.append('        }')
+lines.append('        .hero::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg, rgba(255,154,158,0.75), rgba(254,207,239,0.65), rgba(255,168,197,0.75)); z-index:0; }')
+lines.append('        .hero-content { position: relative; z-index: 1; }')
+
+# Avatar with glow
+lines.append('        .avatar {')
+lines.append('            width: 150px; height: 150px; border-radius: 50%;')
+lines.append('            background: linear-gradient(135deg, var(--pink-dark), var(--pink-main));')
+lines.append('            display: flex; align-items: center; justify-content: center; font-size: 3.5rem;')
+lines.append('            margin: 0 auto 1.5rem; box-shadow: 0 10px 40px rgba(233,30,108,0.3), 0 0 60px rgba(255,107,157,0.4);')
+lines.append('            border: 4px solid rgba(255,255,255,0.6); animation: float 3s ease-in-out infinite;')
+lines.append('        }')
+lines.append('        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }')
+
+# Hero text with text-shadow glow
+lines.append('        .hero h1 { font-size: 3.5rem; font-weight: 700; color: var(--text-light); text-shadow: 0 0 20px rgba(255,107,157,0.5), 2px 2px 10px rgba(0,0,0,0.1); margin-bottom: 0.5rem; letter-spacing: 2px; }')
+lines.append('        .hero .tagline { font-size: 1.2rem; color: rgba(255,255,255,0.95); margin-bottom: 2rem; font-weight: 500; min-height: 1.8em; }')
+
+# Typing cursor
+lines.append('        .typing-cursor { display: inline-block; width: 2px; height: 1.2em; background: white; margin-left: 2px; animation: blink 0.8s infinite; vertical-align: text-bottom; }')
+lines.append('        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }')
+
+# CTA button with glow pulse
+lines.append('        .cta-button {')
+lines.append('            display: inline-block; padding: 16px 48px; background: white; color: var(--pink-dark);')
+lines.append('            border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.1rem;')
+lines.append('            box-shadow: 0 8px 30px rgba(0,0,0,0.15), 0 0 30px rgba(255,107,157,0.3); transition: all 0.3s ease;')
+lines.append('            animation: ctaGlow 2s ease-in-out infinite;')
+lines.append('        }')
+lines.append('        @keyframes ctaGlow { 0%,100%{box-shadow:0 8px 30px rgba(0,0,0,0.15), 0 0 20px rgba(255,107,157,0.2);} 50%{box-shadow:0 8px 30px rgba(0,0,0,0.15), 0 0 40px rgba(255,107,157,0.5);} }')
+lines.append('        .cta-button:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 12px 40px rgba(0,0,0,0.2), 0 0 50px rgba(255,107,157,0.6); }')
+
+lines.append('        .scroll-hint { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.7); animation: bounce 2s infinite; font-size: 1.5rem; z-index: 1; }')
+lines.append('        @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(10px)} }')
+
+# Section
+lines.append('        .section { padding: 80px 20px; max-width: 900px; margin: 0 auto; }')
+lines.append('        .section-title { text-align: center; font-size: 2rem; color: var(--pink-dark); margin-bottom: 1rem; }')
+lines.append('        .section-subtitle { text-align: center; color: #888; margin-bottom: 3rem; font-size: 1rem; }')
+lines.append('        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 2rem; }')
+
+# Service cards with glassmorphism
+lines.append('        .service-card {')
+lines.append('            background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);')
+lines.append('            border-radius: 20px; padding: 2rem; text-align: center;')
+lines.append('            box-shadow: 0 4px 20px rgba(255,107,157,0.1); transition: all 0.4s cubic-bezier(0.4,0,0.2,1); border: 2px solid rgba(255,107,157,0.1);')
+lines.append('        }')
+lines.append('        .service-card:hover { transform: translateY(-8px) scale(1.02); border-color: var(--pink-main); box-shadow: 0 12px 40px rgba(255,107,157,0.25); }')
+lines.append('        .service-icon { font-size: 3rem; margin-bottom: 1rem; display: inline-block; animation: iconBounce 3s ease-in-out infinite; }')
+lines.append('        .service-card:nth-child(2) .service-icon { animation-delay: 0.3s; }')
+lines.append('        .service-card:nth-child(3) .service-icon { animation-delay: 0.6s; }')
+lines.append('        .service-card:nth-child(4) .service-icon { animation-delay: 0.9s; }')
+lines.append('        .service-card:nth-child(5) .service-icon { animation-delay: 1.2s; }')
+lines.append('        .service-card:nth-child(6) .service-icon { animation-delay: 1.5s; }')
+lines.append('        @keyframes iconBounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }')
+lines.append('        .service-card h3 { color: var(--pink-dark); margin-bottom: 0.5rem; font-size: 1.2rem; }')
+lines.append('        .service-card p { color: #777; font-size: 0.95rem; line-height: 1.6; }')
+
+# Pricing
+lines.append('        .pricing-section { background: url(pricing-bg.jpg) center/cover no-repeat; padding: 80px 20px; position: relative; }')
+lines.append('        .pricing-section::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg, rgba(254,207,239,0.88), rgba(255,245,248,0.88)); z-index:0; }')
+lines.append('        .pricing-section > * { position: relative; z-index: 1; }')
+lines.append('        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; max-width: 960px; margin: 0 auto; }')
+lines.append('        .pricing-card {')
+lines.append('            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border-radius: 24px; padding: 2.5rem 2rem;')
+lines.append('            text-align: center; box-shadow: 0 10px 40px rgba(255,107,157,0.15); position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);')
+lines.append('        }')
+lines.append('        .pricing-card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(255,107,157,0.3); }')
+lines.append('        .pricing-card::before { content:""; position:absolute; top:0; left:0; right:0; height:6px; background:linear-gradient(90deg, var(--pink-gradient-1), var(--pink-dark), var(--pink-gradient-3)); }')
+lines.append('        .pricing-card.featured { border: 2px solid var(--pink-main); transform: scale(1.03); box-shadow: 0 15px 50px rgba(255,107,157,0.25); }')
+lines.append('        .pricing-card.featured:hover { transform: scale(1.03) translateY(-8px); }')
+lines.append('        .pricing-card.vip::before { background:linear-gradient(90deg, var(--gold), var(--pink-dark), var(--gold)); height:8px; }')
+lines.append('        .pricing-card.vip { box-shadow: 0 10px 40px rgba(212,165,116,0.2); }')
+lines.append('        .pricing-badge { display:inline-block; background:linear-gradient(135deg, var(--pink-main), var(--pink-dark)); color:white; padding:6px 20px; border-radius:50px; font-size:0.85rem; font-weight:600; margin-bottom:1rem; }')
+lines.append('        .pricing-badge.gold { background:linear-gradient(135deg, var(--gold), #B8860B); }')
+lines.append('        .pricing-card h3 { font-size: 1.5rem; color: var(--pink-dark); margin-bottom: 0.5rem; }')
+lines.append('        .pricing-price { font-size: 2rem; font-weight: 700; color: var(--pink-dark); margin: 0.5rem 0; }')
+lines.append('        .pricing-price small { font-size: 0.9rem; font-weight: 400; color: #999; }')
+lines.append('        .pricing-features { list-style: none; margin: 1.5rem 0; text-align: left; }')
+lines.append('        .pricing-features li { padding: 8px 0; border-bottom: 1px solid var(--pink-light); color: #555; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }')
+lines.append('        .pricing-note { background: var(--pink-light); border-radius: 12px; padding: 1rem; margin-top: 1.5rem; color: var(--text-dark); font-size: 0.9rem; line-height: 1.6; }')
+
+# FOMO banner with countdown
+lines.append('        .fomo-banner { background: linear-gradient(135deg, var(--pink-dark), #FF1493, var(--pink-dark)); background-size: 200% 200%; animation: gradientShift 3s ease infinite; color: white; text-align: center; padding: 20px; font-size: 0.95rem; font-weight: 600; position: relative; z-index: 1; border-radius: 16px; max-width: 960px; margin: 24px auto 0; }')
+lines.append('        @keyframes gradientShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }')
+lines.append('        .countdown { display: flex; justify-content: center; gap: 12px; margin-top: 10px; }')
+lines.append('        .countdown-item { background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); border-radius: 10px; padding: 8px 12px; min-width: 55px; }')
+lines.append('        .countdown-num { font-size: 1.4rem; font-weight: 700; display: block; }')
+lines.append('        .countdown-label { font-size: 0.65rem; opacity: 0.8; text-transform: uppercase; }')
+
+# Contact
+lines.append('        .contact-section { text-align: center; padding: 80px 20px; background: url(contact-bg.jpg) center/cover no-repeat; position: relative; }')
+lines.append('        .contact-section::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg, rgba(255,154,158,0.8), rgba(233,30,108,0.8)); z-index:0; }')
+lines.append('        .contact-section > * { position: relative; z-index: 1; }')
+lines.append('        .contact-section h2 { color: white; font-size: 2rem; margin-bottom: 1rem; }')
+lines.append('        .contact-section p { color: rgba(255,255,255,0.9); margin-bottom: 2rem; font-size: 1.1rem; }')
+lines.append('        .signal-qr-placeholder { width:220px; height:220px; background:white; border-radius:16px; margin:0 auto 1.5rem; display:flex; align-items:center; justify-content:center; font-size:1rem; color:#999; box-shadow:0 8px 30px rgba(0,0,0,0.2); padding:10px; transition: transform 0.3s; }')
+lines.append('        .signal-qr-placeholder:hover { transform: scale(1.05); }')
+lines.append('        .signal-button { display:inline-block; padding:16px 48px; background:white; color:var(--pink-dark); border-radius:50px; text-decoration:none; font-weight:700; font-size:1.1rem; box-shadow:0 8px 30px rgba(0,0,0,0.15); transition:all 0.3s ease; animation: ctaGlow 2s ease-in-out infinite; }')
+lines.append('        .signal-button:hover { transform:translateY(-3px) scale(1.05); box-shadow:0 12px 40px rgba(0,0,0,0.25); }')
+lines.append('        .payment-methods { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:1.5rem; }')
+lines.append('        .payment-tag { background:rgba(255,255,255,0.2); color:white; padding:8px 16px; border-radius:50px; font-size:0.85rem; backdrop-filter:blur(5px); border:1px solid rgba(255,255,255,0.3); transition: all 0.3s; }')
+lines.append('        .payment-tag:hover { background:rgba(255,255,255,0.35); transform:translateY(-2px); }')
+
+# Disclaimer
+lines.append('        .disclaimer { max-width:700px; margin:0 auto; padding:40px 20px; background:#FFF0F3; border-radius:16px; margin-top:-1px; }')
+lines.append('        .disclaimer h4 { color:var(--pink-dark); text-align:center; margin-bottom:1rem; font-size:1rem; }')
+lines.append('        .disclaimer ul { list-style:none; padding:0; }')
+lines.append('        .disclaimer ul li { padding:6px 0; color:#777; font-size:0.82rem; line-height:1.8; text-align:center; }')
+lines.append('        .footer { background: var(--text-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 2rem; font-size: 0.85rem; }')
+
+# Smooth scroll
+lines.append('        html { scroll-behavior: smooth; }')
+
+lines.append('        @media (max-width: 600px) { .hero h1{font-size:2.2rem} .section-title{font-size:1.5rem} .pricing-card{padding:1.5rem} .pricing-card.featured{transform:scale(1)} .services-grid{grid-template-columns:1fr} .pricing-grid{grid-template-columns:1fr} .countdown-item{min-width:45px;padding:6px 8px;} .countdown-num{font-size:1.1rem;} }')
+lines.append('    </style>')
+lines.append('</head>')
+lines.append('<body>')
+
+# Floating particles container
+lines.append('    <div class="particles" id="particles"></div>')
+
+# Hero section
+lines.append('    <section class="hero">')
+lines.append('        <div class="hero-content">')
+lines.append('            <div class="avatar">\U0001f338</div>')
+lines.append('            <h1>1Yyes</h1>')
+# tagline with typing effect placeholder
+lines.append('            <p class="tagline" id="tagline"><span class="typing-cursor"></span></p>')
+lines.append('            <a href="#contact" class="cta-button">\U0001f48c \u64b3\u6211\u50be\u8a08</a>')
+lines.append('        </div>')
+lines.append('        <div class="scroll-hint">\u2193</div>')
+lines.append('    </section>')
+lines.append('')
+
+# Services section
+lines.append('    <section class="section">')
+lines.append('        <h2 class="section-title reveal">\u2661 \u6211\u53ef\u4ee5\u505a\u5230\u4f60\u54cb\uff1f</h2>')
+lines.append('        <p class="section-subtitle reveal">\u6bcf\u500b\u54e5\u54e5\u90fd\u5024\u5f97\u88ab\u6eab\u67d4\u5bf5\u611b\u2661</p>')
+lines.append('        <div class="services-grid">')
+lines.append('            <div class="service-card reveal reveal-delay-1"><div class="service-icon">\U0001f4ac</div><h3>\u751c\u871c\u50be\u8a08</h3><p>\u7121\u8ad6\u4f60\u958b\u5fc3\u5b9a\u5931\u843d\uff0c\u6211\u90fd\u6703 24/7 \u966a\u4f60\uff0c\u751c\u751c\u56de\u61c9\u4f60\u6bcf\u4e00\u53e5</p></div>')
+lines.append('            <div class="service-card reveal reveal-delay-2"><div class="service-icon">\U0001f3a5</div><h3>\u7368\u5bb6\u5167\u5bb9</h3><p>\u53ea\u70ba\u4f60\u4e00\u500b\u4eba\u62cd\u5605\u9ad8\u6e05\u5f71\u7247 + \u79c1\u5bc6\u76f8\u7247\uff08\u5514\u516c\u958b\uff09</p></div>')
+lines.append('            <div class="service-card reveal reveal-delay-3"><div class="service-icon">\U0001f381</div><h3>\u6253\u5305\u8a08\u5283</h3><p>\u4e00\u6b21\u904e\u64c1\u6709\u5168\u90e8 + \u672a\u4f86\u66f4\u65b0\uff0c\u6c38\u9060\u5c6c\u65bc\u4f60</p></div>')
+lines.append('            <div class="service-card reveal reveal-delay-4"><div class="service-icon">\U0001f319</div><h3>\u6df1\u591c\u966a\u4f34</h3><p>\u591c\u6df1\u4eba\u975c\uff0c\u6211\u5605\u8072\u97f3\u966a\u4f60\u5165\u7720</p></div>')
+lines.append('            <div class="service-card reveal reveal-delay-5"><div class="service-icon">\U0001f49d</div><h3>\u5c08\u5c6c\u8a9e\u97f3/\u8996\u8a0a</h3><p>\u54e5\u54e5\u60f3\u807d\u4e5c\uff0c\u6211\u5373\u523b\u9304\u756c\u4f60\uff08\u6253\u5305\u5f8c\u512a\u5148\uff09</p></div>')
+lines.append('            <div class="service-card reveal reveal-delay-5"><div class="service-icon">\u2728</div><h3>\u9650\u5b9a\u9a5a\u559c + \u62bd\u734e</h3><p>\u4e0d\u5b9a\u671f\u5c0f\u79ae\u7269 + \u6bcf\u9031\u62bd\u5e78\u904b\u5152\u7dda\u4e0a\u8996\u8a0a\u966a\u4f34</p></div>')
+lines.append('        </div>')
+lines.append('    </section>')
+lines.append('')
+
+# Pricing section
+lines.append('    <section class="pricing-section" id="pricing">')
+lines.append('        <h2 class="section-title reveal">\u2661 \u5c08\u5c6c\u6253\u5305\u8a08\u5283</h2>')
+lines.append('        <p class="section-subtitle reveal">\u63c0\u5571\u4f60\u5605\u751c\u871c\u7d1a\u5225\u2661</p>')
+lines.append('        <div class="pricing-grid">')
+
+# Tier 1
+lines.append('            <div class="pricing-card reveal reveal-delay-1">')
+lines.append('                <span class="pricing-badge">\u2661 \u5165\u9580\u751c\u5fc3</span>')
+lines.append('                <h3>\u57fa\u672c\u5305</h3>')
+lines.append('                <div class="pricing-price">$300\u2013500 <small>HKD</small></div>')
+lines.append('                <ul class="pricing-features">')
+lines.append('                    <li>\U0001f495 \u6240\u6709\u516c\u958b\u904e\u5605\u7cbe\u9078\u76f8\u7247</li>')
+lines.append('                    <li>\U0001f495 \u6240\u6709\u516c\u958b\u904e\u5605\u5f71\u7247\u5408\u96c6</li>')
+lines.append('                    <li>\U0001f495 \u512a\u5148\u56de\u8986\u8a0a\u606f</li>')
+lines.append('                    <li>\U0001f495 \u81ea\u52d5\u5165\u6bcf\u9031\u62bd\u734e\u6c60</li>')
+lines.append('                </ul>')
+lines.append('                <a href="#contact" class="cta-button" style="margin-top:1rem;padding:12px 32px;font-size:0.95rem;">\U0001f48c \u64b3\u6211\u50be\u8a08</a>')
+lines.append('            </div>')
+
+# Tier 2
+lines.append('            <div class="pricing-card featured reveal reveal-delay-2">')
+lines.append('                <span class="pricing-badge">\U0001f525 \u4eba\u6c23\u63a8\u85a6</span>')
+lines.append('                <h3>\u9032\u968e\u5305</h3>')
+lines.append('                <div class="pricing-price">$800\u20131,500 <small>HKD</small></div>')
+lines.append('                <ul class="pricing-features">')
+lines.append('                    <li>\U0001f495 \u57fa\u672c\u5305\u6240\u6709\u5167\u5bb9</li>')
+lines.append('                    <li>\U0001f495 +10\u689d\u672a\u516c\u958b\u7368\u5bb6\u5f71\u7247</li>')
+lines.append('                    <li>\U0001f495 \u5ba2\u88fd\u5316\u5c08\u5c6c\u76f8\u7247</li>')
+lines.append('                    <li>\U0001f495 \u5c08\u5c6c\u8a9e\u97f3\u8a0a\u606f</li>')
+lines.append('                    <li>\U0001f495 \u6bcf\u9031\u62bd\u734e\u96d9\u500d\u6a5f\u6703</li>')
+lines.append('                </ul>')
+lines.append('                <a href="#contact" class="cta-button" style="margin-top:1rem;padding:12px 32px;font-size:0.95rem;">\U0001f48c \u64b3\u6211\u50be\u8a08</a>')
+lines.append('            </div>')
+
+# Tier 3
+lines.append('            <div class="pricing-card vip reveal reveal-delay-3">')
+lines.append('                <span class="pricing-badge gold">\U0001f451 \u5c0a\u8cb4\u9650\u5b9a</span>')
+lines.append('                <h3>\u5c0a\u8cb4\u5305</h3>')
+lines.append('                <div class="pricing-price">$2,000+ <small>HKD</small></div>')
+lines.append('                <ul class="pricing-features">')
+lines.append('                    <li>\U0001f495 \u9032\u968e\u5305\u6240\u6709\u5167\u5bb9</li>')
+lines.append('                    <li>\U0001f495 \u6bcf\u9031\u9650\u6642\u8a9e\u97f3/\u77ed\u8996\u8a0a\u966a\u4f34</li>')
+lines.append('                    <li>\U0001f495 \u512a\u5148\u62bd\u734e\u8cc7\u683c\uff08VIP\u5c08\u5c6c\uff09</li>')
+lines.append('                    <li>\U0001f495 \u672a\u4f86\u4e00\u500b\u6708\u6240\u6709\u66f4\u65b0\u514d\u8cbb</li>')
+lines.append('                    <li>\U0001f495 \u5c08\u5c6c\u5ba2\u88fd\u5167\u5bb9\uff08\u4f60\u60f3\u8981\u4e5c\u90fd\u5f97\uff09</li>')
+lines.append('                </ul>')
+lines.append('                <a href="#contact" class="cta-button" style="margin-top:1rem;padding:12px 32px;font-size:0.95rem;">\U0001f48c \u64b3\u6211\u50be\u8a08</a>')
+lines.append('            </div>')
+
+lines.append('        </div>')
+
+# Pricing note
+lines.append('        <div class="pricing-note reveal" style="max-width:960px;margin:24px auto 0;position:relative;z-index:1;">')
+lines.append('            \U0001f495 \u54e5\u54e5\u958b\u50f9\u6211\u6703\u53c3\u8003\uff0c\u5408\u7406\u5373\u6210\u4ea4\u2661 \u6700\u7dca\u8981\u5927\u5bb6\u958b\u5fc3\uff5e')
+lines.append('        </div>')
+
+# FOMO banner with countdown
+lines.append('        <div class="fomo-banner reveal">')
+lines.append('            \u26a1 \u9650\u6642\u512a\u60e0\uff1a\u6253\u5305\u5f8c\u5373\u9001\u672a\u4f86\u4e00\u500b\u6708\u66f4\u65b0 + \u81ea\u52d5\u5165\u62bd\u734e\u6c60\u2728')
+lines.append('            <div class="countdown" id="countdown">')
+# 日 時 分 秒
+lines.append('                <div class="countdown-item"><span class="countdown-num" id="cd-days">00</span><span class="countdown-label">\u65e5</span></div>')
+lines.append('                <div class="countdown-item"><span class="countdown-num" id="cd-hours">00</span><span class="countdown-label">\u6642</span></div>')
+lines.append('                <div class="countdown-item"><span class="countdown-num" id="cd-mins">00</span><span class="countdown-label">\u5206</span></div>')
+lines.append('                <div class="countdown-item"><span class="countdown-num" id="cd-secs">00</span><span class="countdown-label">\u79d2</span></div>')
+lines.append('            </div>')
+lines.append('        </div>')
+lines.append('    </section>')
+lines.append('')
+
+# Contact section
+lines.append('    <section class="contact-section" id="contact">')
+lines.append('        <h2 class="reveal">\U0001f48c \u52a0\u6211 Signal \u50be\u8a08</h2>')
+lines.append('        <p class="reveal">\u6383\u63cf\u4e0b\u9762\u5605 QR Code \u6216\u8005\u64b3\u4e0b\u500b\u63a3\u52a0\u6211</p>')
+lines.append('        <div class="signal-qr-placeholder reveal">')
+lines.append('            <img src="signal-qr.png" alt="Signal QR Code - niun.21" style="width:100%;height:100%;object-fit:contain;border-radius:12px;" onerror="this.parentElement.innerHTML=\'\\U0001f4f1 niun.21<br>Signal QR Code\'">')
+lines.append('        </div>')
+lines.append('        <p style="color:rgba(255,255,255,0.8);margin-top:0.5rem;font-size:0.9rem;">Signal: niun.21</p>')
+lines.append('        <a href="https://signal.me/#eu/BOrT0ZsoVYm8bNQ90FXtZubn0eaFusOXesX9gOJq6v0ObNhLldBED4GIv_Lah5Qp" class="signal-button reveal" target="_blank">\U0001f4f2 \u52a0\u6211 Signal</a>')
+lines.append('        <div class="payment-methods reveal">')
+lines.append('            <span class="payment-tag">PayMe</span>')
+lines.append('            <span class="payment-tag">Alipay HK</span>')
+lines.append('            <span class="payment-tag">\u9280\u884c\u8f49\u5e33</span>')
+lines.append('            <span class="payment-tag">FPS \u8f49\u6578\u5feb</span>')
+lines.append('        </div>')
+lines.append('    </section>')
+lines.append('')
+
+# Disclaimer
+lines.append('    <div class="disclaimer">')
+lines.append('        <h4>\u2661 \u514d\u8cac\u8072\u660e</h4>')
+lines.append('        <ul>')
+lines.append('            <li>\u6240\u6709\u670d\u52d9\u53ea\u9650\u7dda\u4e0a\uff1a\u8a0a\u606f\u3001\u5167\u5bb9\u3001\u8a9e\u97f3\uff0c\u5514\u6d89\u53ca\u4efb\u4f55\u7dda\u4e0b\u898b\u9762</li>')
+lines.append('            <li>18+\u9650\u5b9a\uff0c\u6240\u6709\u4ea4\u6613\u57fa\u65bc\u96d9\u65b9\u81ea\u9858</li>')
+lines.append('            <li>\u4ed8\u6b3e\u5f8c\u6055\u4e0d\u9000\u6b3e\uff0c\u8acb\u8af4\u6e05\u695a\u5148\u505a\u6c7a\u5b9a\u2661</li>')
+lines.append('            <li>\u6240\u6709\u5167\u5bb9\u79c1\u8a0a\u4ea4\u4ed8\uff0c\u4fdd\u8b77\u96d9\u65b9\u5b89\u5168\u540c\u96b1\u79c1</li>')
+lines.append('            <li>\u5982\u679c\u5514\u60f3\u505a\uff0c\u6211\u5b8c\u5168\u660e\u767d\uff0c\u5187\u4efb\u4f55\u58d3\u529b\u2661</li>')
+lines.append('        </ul>')
+lines.append('    </div>')
+lines.append('')
+
+# Footer
+lines.append('    <footer class="footer"><p>\u00a9 2026 1Yyes \u2661 All Rights Reserved</p></footer>')
+
+# ========== JAVASCRIPT ==========
+lines.append('    <script>')
+
+# 1. Floating particles
+lines.append('    (function(){')
+lines.append('        var c=document.getElementById("particles");')
+lines.append('        var emojis=["\u2764\ufe0f","\U0001f495","\U0001f338","\u2728","\U0001f31f","\U0001f49d","\U0001f33a","\u2661"];')
+lines.append('        function spawn(){')
+lines.append('            var p=document.createElement("span");')
+lines.append('            p.className="particle";')
+lines.append('            p.textContent=emojis[Math.floor(Math.random()*emojis.length)];')
+lines.append('            p.style.left=Math.random()*100+"vw";')
+lines.append('            p.style.fontSize=(0.8+Math.random()*1.2)+"rem";')
+lines.append('            p.style.animationDuration=(6+Math.random()*8)+"s";')
+lines.append('            p.style.animationDelay=Math.random()*2+"s";')
+lines.append('            c.appendChild(p);')
+lines.append('            setTimeout(function(){p.remove()},16000);')
+lines.append('        }')
+lines.append('        for(var i=0;i<12;i++) setTimeout(spawn, i*800);')
+lines.append('        setInterval(spawn, 2000);')
+lines.append('    })();')
+
+# 2. Typing effect
+lines.append('    (function(){')
+# 你嘅專屬甜心陪伴 ♡ 只為你一個人、陪你每一刻
+lines.append('        var text="\u4f60\u5605\u5c08\u5c6c\u751c\u5fc3\u966a\u4f34 \u2661 \u53ea\u70ba\u4f60\u4e00\u500b\u4eba\u3001\u966a\u4f60\u6bcf\u4e00\u523b";')
+lines.append('        var el=document.getElementById("tagline");')
+lines.append('        var i=0;')
+lines.append('        function type(){')
+lines.append('            if(i<=text.length){')
+lines.append('                el.innerHTML=text.substring(0,i)+"<span class=\\"typing-cursor\\"></span>";')
+lines.append('                i++;')
+lines.append('                setTimeout(type,80);')
+lines.append('            }')
+lines.append('        }')
+lines.append('        setTimeout(type,800);')
+lines.append('    })();')
+
+# 3. Scroll reveal
+lines.append('    (function(){')
+lines.append('        var els=document.querySelectorAll(".reveal");')
+lines.append('        var ob=new IntersectionObserver(function(entries){')
+lines.append('            entries.forEach(function(e){')
+lines.append('                if(e.isIntersecting){e.target.classList.add("visible");ob.unobserve(e.target);}')
+lines.append('            });')
+lines.append('        },{threshold:0.15});')
+lines.append('        els.forEach(function(el){ob.observe(el);});')
+lines.append('    })();')
+
+# 4. Countdown timer (7 days from now, resets)
+lines.append('    (function(){')
+lines.append('        var end=new Date();')
+lines.append('        end.setDate(end.getDate()+7);')
+lines.append('        end.setHours(23,59,59,0);')
+lines.append('        function update(){')
+lines.append('            var now=new Date();')
+lines.append('            var diff=end-now;')
+lines.append('            if(diff<=0){end.setDate(end.getDate()+7);return update();}')
+lines.append('            var d=Math.floor(diff/86400000);')
+lines.append('            var h=Math.floor((diff%86400000)/3600000);')
+lines.append('            var m=Math.floor((diff%3600000)/60000);')
+lines.append('            var s=Math.floor((diff%60000)/1000);')
+lines.append('            document.getElementById("cd-days").textContent=String(d).padStart(2,"0");')
+lines.append('            document.getElementById("cd-hours").textContent=String(h).padStart(2,"0");')
+lines.append('            document.getElementById("cd-mins").textContent=String(m).padStart(2,"0");')
+lines.append('            document.getElementById("cd-secs").textContent=String(s).padStart(2,"0");')
+lines.append('        }')
+lines.append('        update();setInterval(update,1000);')
+lines.append('    })();')
+
+lines.append('    </script>')
+lines.append('</body>')
+lines.append('</html>')
+
+html_content = '\n'.join(lines)
+output_path = os.path.join('C:\\', 'Users', 'User', 'WebProjects', 'my-todo', 'index.html')
+with open(output_path, 'w', encoding='utf-8') as f:
+    f.write(html_content)
+print("Done! File written to", output_path)
